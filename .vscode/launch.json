@@ -4,7 +4,7 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Launch Chrome against localhost",
+            "name": "6",
             "url": "http://192.168.110.60:9093/bookstudy/functional-js/chapter6/index.html?tst=1",
             "webRoot": "${workspaceRoot}"
         },
@@ -13,6 +13,20 @@
             "request": "attach",
             "name": "Attach to Chrome",
             "port": 9222,
+            "webRoot": "${workspaceRoot}"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "7",
+            "url": "http://192.168.110.60:9093/bookstudy/functional-js/chapter7/index.html?tst=1",
+            "webRoot": "${workspaceRoot}"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "8",
+            "url": "http://192.168.110.60:9093/bookstudy/functional-js/chapter8/index.html?tst=1",
             "webRoot": "${workspaceRoot}"
         }
     ]
