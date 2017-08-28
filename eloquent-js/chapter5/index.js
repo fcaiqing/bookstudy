@@ -53,10 +53,9 @@ zlw.hello(); // zlw
 var hello = zlw.hello;
 hello(); // xlj
 Function.prototype.bindxx = function (params) {
-    console.log();
     return function (params) {
         // this.apply(params, _.rest(arguments));
     }
 }
-// var hello1=zlw.hello.bindxx(zlw);
+var hello1=zlw.hello.bindxx(zlw);
 // hello1();
