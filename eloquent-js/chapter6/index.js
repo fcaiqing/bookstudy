@@ -27,3 +27,6 @@ var ad={w: 2, e: 3};var newO = Object.create(ad,
          value:4
      }
 });log("newO", newO);newO.i=5;log(newO);delete newO.i;log(newO)
+//无原型对象
+var map = Object.create(null);
+//多态
