@@ -77,5 +77,5 @@ log(ancesstry.filter(isIntSet.bind(null, theSet)))
 function printArguments(params) {
     log(arguments);
 }
-var printArgumentsBind = printArguments.bind(null, "我是优先参数");
+var printArgumentsBind = printArguments.bind(null, "我是优先参数1", '我是优先参数2','我是优先参数3', '...', '我是优先参数N');
 printArgumentsBind("我在优先参数之后");
