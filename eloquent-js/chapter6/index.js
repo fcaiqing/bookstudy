@@ -31,7 +31,7 @@ var ad={w: 2, e: 3};var newO = Object.create(ad,
 var map = Object.create(null);
 //chapter6.9 绘制表格
 //保存每行显示需要的最小高度
-function rowHeights(rows) {
+/* function rowHeights(rows) {
     return rows.map(function (row) {
         return row.reduce(function (max, cell) {
             return Math.max(max, cell.minHeight());
@@ -101,10 +101,31 @@ for(var i=0; i<5; i++) {
     var row = [];
     for(var j=0; j<5; j++) {
         if((j+i)%2 ==0 )
-            row.push(new TextCell('##\nss'));
+            row.push(new TextCell('##\nss\n3545'));
         else
-            row.push(new TextCell(' '));
+            row.push(new TextCell('dd'));
     }
     rows.push(row);
 }
-log(drawTable(rows));
+log(drawTable(rows)); */
+
+//绘表格
+//表格单位
+function Cell(txt) {
+    this.txt = txt.split('\n');
+}
+Cell.prototype.height = function () {
+    return this.txt.length;
+}
+//每行最小的现实高度要求
+function minShowHeight(rows) {
+    return rows.map(function (row) {
+        return row.reduce(function (maxH, cell) {
+           return  Math.max(maxH, cell.height())
+        }, 0)
+    })
+}
+//每列最小现实宽度，有最宽的cell决定
+function minShowWidth(rows) {
+    
+}
