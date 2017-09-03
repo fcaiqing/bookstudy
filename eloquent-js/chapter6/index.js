@@ -31,7 +31,7 @@ var ad={w: 2, e: 3};var newO = Object.create(ad,
 var map = Object.create(null);
 //chapter6.9 绘制表格
 //保存每行显示需要的最小高度
-/* function rowHeights(rows) {
+function rowHeights(rows) {
     return rows.map(function (row) {
         return row.reduce(function (max, cell) {
             return Math.max(max, cell.minHeight());
@@ -107,7 +107,7 @@ for(var i=0; i<5; i++) {
     }
     rows.push(row);
 }
-log(drawTable(rows)); */
+// log(drawTable(rows));
 
 //绘表格
 //表格单位
@@ -116,6 +116,11 @@ function Cell(txt) {
 }
 Cell.prototype.height = function () {
     return this.txt.length;
+}
+Cell.prototype.width = function () {
+    return this.txt.reduce(function (width, line) {
+        return Math.max(width, line.length);
+    }, 0)
 }
 //每行最小的现实高度要求
 function minShowHeight(rows) {
@@ -127,5 +132,71 @@ function minShowHeight(rows) {
 }
 //每列最小现实宽度，有最宽的cell决定
 function minShowWidth(rows) {
-    
+    //列遍历时，我可以先限定列索引，然后行遍历
+    return rows[0].map(function (_, i) {
+        return rows.reduce(function (width, row) {
+            return Math.max(width, row[i].width());
+        }, 0)
+    })
 }
+//绘制表格
+function drawFixedTable(rows) {
+    //获取绘制表格单元的最小宽和高
+    var width = minShowWidth(rows);
+    var height = minShowHeight(rows);
+    //打印格式处理
+    function format(width, height) {
+        function repeatly(targetC, times) {
+            var rst="";
+            for(var i=0; i<times; i++) {
+                rst+=targetC;
+            }
+            return rst;
+        }
+        return rows.map(function (row, rowInx) {
+            var rowH = height[rowInx];
+            return row.map(function(cell, colInx){
+                var colW= width[colInx];
+                //{}->[]
+                var tmp =[];
+                for(var i=0; i<rowH; i++) {
+                    var line = cell.txt[i] ||"";
+                    tmp.push(line+repeatly(' ', colW-line.length));
+                }
+                return tmp;
+            })
+        })
+    }
+    var newRows = format(width, height);
+    function print(rows) {
+        var colN = rows[0].length;
+        var lineN=rows[0][0].length;
+        rows.map(function (row) {
+            for(var line=0; line<lineN; line++) {
+                var lines="";
+                for(var j=0; j<colN; j++) {
+                    lines+=row[j][line];
+                    lines=j==colN-1? lines : lines+' ';
+                }
+                log(lines);
+            }
+        })
+    }
+    print(newRows);
+}
+//生产数据
+function proData(rowN, colN, funCall) {
+    var rows = [];
+    for(var i= 0; i<rowN; i++) {
+        var row = [];
+        for(var j=0; j<colN; j++) {
+            var data = (i+j)%2===0 ? funCall() : new Cell("odd");
+            row.push(data);
+        }
+        rows.push(row);
+    }
+    return rows; 
+}
+drawFixedTable(proData(4,5, function () {
+    return new Cell("cder\n---");
+}));
