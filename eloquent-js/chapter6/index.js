@@ -1,5 +1,5 @@
 function log() {
-    getUrlObj()['tst']&& console.log.apply(null, arguments);
+    getUrlObj()['tst'] && console.log.apply(null, arguments);
 }
 function getUrlObj() {
     var qs = (location.search.length > 0 ? location.search.substring(1) : ""),
@@ -15,18 +15,18 @@ function getUrlObj() {
     }
     return args;
 }
-var ad={w: 2, e: 3};var newO = Object.create(ad,
+var ad = { w: 2, e: 3 }; var newO = Object.create(ad,
     {
-     i:{
-         value:2,
-         writable: true,
-         configurable: true,//是否可删除
-         enumerable: true
+        i: {
+            value: 2,
+            writable: true,
+            configurable: true,//是否可删除
+            enumerable: true
         },
-     d:{
-         value:4
-     }
-});log("newO", newO);newO.i=5;log(newO);delete newO.i;log(newO)
+        d: {
+            value: 4
+        }
+    }); log("newO", newO); newO.i = 5; log(newO); delete newO.i; log(newO)
 //无原型对象
 var map = Object.create(null);
 //chapter6.9 绘制表格
@@ -57,7 +57,7 @@ function drawTable(rows) {
         }).join(" ");
     }
     function drawRow(row, rowNum) {
-        var blocks = row.map(function (cell, colNum) { 
+        var blocks = row.map(function (cell, colNum) {
             return cell.draw(widths[colNum], heights[rowNum]);//绘制的cell{text:[行1, 行2,...] -> [行1， 行2， ...]
         });
         //返回row这行的层数组[层1， 层2, ...]
@@ -70,13 +70,13 @@ function drawTable(rows) {
 //
 function repeat(string, times) {
     var result = "";
-    for(var i = 0; i<times; i++) {
-        result+=string;
+    for (var i = 0; i < times; i++) {
+        result += string;
     }
     return result;
 }
 //
-function    TextCell(text) {
+function TextCell(text) {
     this.text = text.split("\n");
 }
 TextCell.prototype.minWidth = function () {
@@ -90,17 +90,17 @@ TextCell.prototype.minHeight = function () {
 //格式处理对齐
 TextCell.prototype.draw = function (width, height) {
     var result = [];
-    for(var i=0; i<height; i++) {
-        var line = this.text[i] ||"";
-        result.push(line+repeat(' ', width-line.length));
+    for (var i = 0; i < height; i++) {
+        var line = this.text[i] || "";
+        result.push(line + repeat(' ', width - line.length));
     }
     return result;
 };
 var rows = [];
-for(var i=0; i<5; i++) {
+for (var i = 0; i < 5; i++) {
     var row = [];
-    for(var j=0; j<5; j++) {
-        if((j+i)%2 ==0 )
+    for (var j = 0; j < 5; j++) {
+        if ((j + i) % 2 == 0)
             row.push(new TextCell('##\nss\n3545'));
         else
             row.push(new TextCell('dd'));
@@ -122,11 +122,26 @@ Cell.prototype.width = function () {
         return Math.max(width, line.length);
     }, 0)
 }
+Cell.prototype.drawCell = function (width, height) {
+    var lines=[];
+    for(var i=0; i<height; i++) {
+        var line=this.txt[i] || "";
+        lines.push(line+repeatly(' ', width-line.length))
+    }
+    return lines;
+}
+function repeatly(targetC, times) {
+    var rst = "";
+    for (var i = 0; i < times; i++) {
+        rst += targetC;
+    }
+    return rst;
+}
 //每行最小的现实高度要求
 function minShowHeight(rows) {
     return rows.map(function (row) {
         return row.reduce(function (maxH, cell) {
-           return  Math.max(maxH, cell.height())
+            return Math.max(maxH, cell.height())
         }, 0)
     })
 }
@@ -140,43 +155,30 @@ function minShowWidth(rows) {
     })
 }
 //绘制表格
-function drawFixedTable(rows) {
+function drawFixedTable(rows, addHead) {
+    addHead&&addHead(rows);
     //获取绘制表格单元的最小宽和高
     var width = minShowWidth(rows);
     var height = minShowHeight(rows);
     //打印格式处理
     function format(width, height) {
-        function repeatly(targetC, times) {
-            var rst="";
-            for(var i=0; i<times; i++) {
-                rst+=targetC;
-            }
-            return rst;
-        }
         return rows.map(function (row, rowInx) {
-            var rowH = height[rowInx];
-            return row.map(function(cell, colInx){
-                var colW= width[colInx];
+            return row.map(function (cell, colInx) {
                 //{}->[]
-                var tmp =[];
-                for(var i=0; i<rowH; i++) {
-                    var line = cell.txt[i] ||"";
-                    tmp.push(line+repeatly(' ', colW-line.length));
-                }
-                return tmp;
+               return cell.drawCell(width[colInx], height[rowInx]);
             })
         })
     }
     var newRows = format(width, height);
     function print(rows) {
         var colN = rows[0].length;
-        var lineN=rows[0][0].length;
         rows.map(function (row) {
-            for(var line=0; line<lineN; line++) {
-                var lines="";
-                for(var j=0; j<colN; j++) {
-                    lines+=row[j][line];
-                    lines=j==colN-1? lines : lines+' ';
+            var lineN = row[0].length;
+            for (var line = 0; line < lineN; line++) {
+                var lines = "";
+                for (var j = 0; j < colN; j++) {
+                    lines += row[j][line];
+                    lines = j == colN - 1 ? lines : lines + ' ';
                 }
                 log(lines);
             }
@@ -187,16 +189,38 @@ function drawFixedTable(rows) {
 //生产数据
 function proData(rowN, colN, funCall) {
     var rows = [];
-    for(var i= 0; i<rowN; i++) {
+    for (var i = 0; i < rowN; i++) {
         var row = [];
-        for(var j=0; j<colN; j++) {
-            var data = (i+j)%2===0 ? funCall() : new Cell("odd");
+        for (var j = 0; j < colN; j++) {
+            var data = (i + j) % 2 === 0 ? funCall() : new Cell("odd");
             row.push(data);
         }
         rows.push(row);
     }
-    return rows; 
+    return rows;
 }
-drawFixedTable(proData(4,5, function () {
-    return new Cell("cder\n---");
-}));
+/* drawFixedTable(proData(4, 5, function () {
+    return new Cell("1234");
+})); */
+//
+function UnderlineCell(inner) {
+    this.inner = inner;
+};
+UnderlineCell.prototype.minWidth = function () {
+    return this.inner.width();
+}
+UnderlineCell.prototype.minHeight = function () {
+    return this.inner.height() + 1;
+}
+UnderlineCell.prototype.draw = function (width, height) {
+    return this.inner.drawCell(width, height-1).concat([repeat('-', width)]);
+}
+function addHead(rows) {
+    rows[0].map(function (cell) {
+        cell.txt.push(repeatly('=', cell.width()));
+    })
+}
+//表头下划线强调
+drawFixedTable(proData(4, 5, function () {
+    return new Cell("1234");
+}), addHead);
