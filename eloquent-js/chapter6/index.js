@@ -224,3 +224,41 @@ function addHead(rows) {
 drawFixedTable(proData(4, 5, function () {
     return new Cell("1234");
 }), addHead);
+//6.10
+var pile = {
+    elements: ['eggs', 'origin', 'worms'],
+    get height() {
+        return this.elements.length;
+    },
+    set height(value) {
+        // log(value);
+        this.elements.push(value);
+    }
+};
+log(pile.height);
+pile.height = 100;
+log(pile.height);
+//Getter Setter 的属性等同于
+Object.defineProperty(pile, "newAttr", {
+    value: "xxqqwew",
+    writable: true,
+    configurable: false,
+    enumerable: false
+})
+log(pile.newAttr);
+//
+Object.defineProperty(pile, 'width', {
+    //当定义了获取器，但未定义设置器时，此时js会忽略所有属性值得修改
+    set: function (value) {
+        this.elements.push(value);
+    },
+    get: function () {
+        return this.elements[this.elements.length-1];
+    },
+    configurable:false,
+    enumerable: true
+})
+log(pile.width);
+pile.width = 'xldyaxldya';
+log(pile.width);
+//6.11
