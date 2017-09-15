@@ -35,5 +35,9 @@ function Point(x, y) {
     this.y = y;
 }
 Point.prototype.plus = function (other) {
+
    return new Point(other.x+this.x, other.y+this.y);
 }
+var grid = [["top left", "top middle", "top right"],
+            ["bottom left", "bottom middle", "bottom right"]];
+console.log(grid[1][2]);
