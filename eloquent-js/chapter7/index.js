@@ -30,6 +30,7 @@ var plan = [
     "#           #                  #",
     "################################"
 ]
+//Grid API
 function Point(x, y) {
     this.x = x;
     this.y = y;
@@ -37,9 +38,6 @@ function Point(x, y) {
 Point.prototype.plus = function (other) {
    return new Point(other.x+this.x, other.y+this.y);
 }
-var grid = [["top left", "top middle", "top right"],
-            ["bottom left", "bottom middle", "bottom right"]];
-console.log(grid[1][2]);
 
 //
 function Grid(width, height) {
@@ -62,4 +60,42 @@ var grid = new Grid (5, 5);
 log(grid.get(new Point(1, 1)));
 grid.set(new Point(1, 1), "X");
 log(grid.get(new Point(1, 1)));
-//
+//Animal API
+var directions = {
+    "n": new Point(0, -1),
+    "ne": new Point(1, -1),
+    "e": new Point(1, 0),
+    "se": new Point(1, 1),
+    "s": new Point(0, 1),
+    "sw": new Point(-1, 1),
+    "w": new Point(-1, 0),
+    "nw": new Point(-1, -1)
+};
+function randomElement(array) {
+    return array[Math.floor(Math.random()*array.length)];
+}
+var directionNames = "n ne e se s sw w nw".split(" ");
+function BouncingCritter(directions) {
+    this.direction = randomElement(directions);
+}
+BouncingCritter.prototype.act = function (view) {
+    if(view.look(this.direction) != " ") {
+        this.direction = view.find(" ") || "s";
+    }
+    return {"type": "move", "direction": this.direction};
+};
+//World 对象
+function elementFromChar(legend, ch) {
+    if(ch == " ") {
+        return null;
+    }
+    var element = new legend[ch]();
+    element.originChar = ch;
+    return element;
+}
+function World(map, legend) {
+    var grid = new Grid(map[0].length, map.length);
+    this.grid = grid;
+    this.legend = legend;
+    
+}
