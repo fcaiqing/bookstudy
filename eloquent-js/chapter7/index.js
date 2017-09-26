@@ -97,5 +97,10 @@ function World(map, legend) {
     var grid = new Grid(map[0].length, map.length);
     this.grid = grid;
     this.legend = legend;
-    
+
+    map.map(function (line, y) {
+        line.map(function (value, x) {
+            grid.set(new Point(x,y), elementFromChar(legend, value));
+        })
+    })
 }
