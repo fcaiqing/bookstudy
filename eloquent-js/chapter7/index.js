@@ -75,8 +75,8 @@ function randomElement(array) {
     return array[Math.floor(Math.random()*array.length)];
 }
 var directionNames = "n ne e se s sw w nw".split(" ");
-function BouncingCritter(directions) {
-    this.direction = randomElement(directions);
+function BouncingCritter() {
+    this.direction = randomElement(directionNames);
 }
 BouncingCritter.prototype.act = function (view) {
     if(view.look(this.direction) != " ") {
@@ -99,8 +99,30 @@ function World(map, legend) {
     this.legend = legend;
 
     map.map(function (line, y) {
-        line.map(function (value, x) {
-            grid.set(new Point(x,y), elementFromChar(legend, value));
-        })
+        for(var x=0; x<line.length; x++) {
+            grid.set(new Point(x,y), elementFromChar(legend, line[x]));
+        }
     })
 }
+function charFromElement(ele) {
+    return ele ? ele.originChar : " ";
+}
+World.prototype.toString = function() {
+    var output = "";
+    for(var y=0; y<this.grid.height; y++) {
+        for (var x=0; x<this.grid.width; x++) {
+            var ele = this.grid.get(new Point(x, y));
+            output += charFromElement(ele);
+        }
+        output += '\n';
+    }
+    return output;
+};
+function Wall() {
+    
+};
+var world = new World(plan, {
+    '#': Wall,
+    'o': BouncingCritter
+});
+console.log(world.toString());
