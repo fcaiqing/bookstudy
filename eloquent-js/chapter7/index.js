@@ -55,6 +55,16 @@ Grid.prototype.get = function (point) {
 Grid.prototype.set = function (point, value) {
     this.space[point.x+point.y*this.width] = value;
 };
+Grid.prototype.forEach = function (f, ct) {
+    for(var y = 0; y<this.height; y++) {
+        for(var x=0 ; x< this.width; x++) {
+            var val = this.space[x+y*this.width];
+            if(val != null) {
+                f.call(ct, val, new Point(x, y))
+            }
+        }
+    }
+}
 //
 var grid = new Grid (5, 5);
 log(grid.get(new Point(1, 1)));
@@ -126,3 +136,61 @@ var world = new World(plan, {
     'o': BouncingCritter
 });
 console.log(world.toString());
+// 赋予生命
+World.prototype.turn = function() {
+    var acted = [];
+    this.grid.forEach(function (critter, point) {
+        if(critter.act&&acted.indexOf(critter)===-1) {
+            acted.push(critter);
+            this.letAct(critter, point);
+        }
+    },this);
+};
+World.prototype.letAct = function (critter, point) {
+    var action = critter.act(new View(this, point));
+    if(action&&action.type==='move') {
+        var dest = this.checkDestination(action, point);
+        if(dest&&this.grid.get(dest)==null) {
+            this.grid.set(point, null);
+            this.grid.set(dest, critter);
+        }
+    }
+}
+World.prototype.checkDestination = function (action, point) {
+    if(directions.hasOwnProperty(action.direction)) {
+        var dest = point.plus(directions[action.direction]);
+        if(this.grid.isInside(dest)) {
+            return dest;
+        }
+    }
+}
+function View(world, point) {
+    this.world = world;
+    this.point = point;
+}
+View.prototype.look = function (dir) {
+    var target = this.point.plus(directions[dir]);
+    if(this.world.grid.isInside(target))
+        return charFromElement(this.world.grid.get(target));
+    else
+        return "#";
+};
+View.prototype.findAll = function (ch) {
+    var found = [];
+    for(var dir in directions) {
+        if(this.look(dir) == ch) {
+            found.push(dir);
+        }
+    }
+    return found;
+};
+View.prototype.find = function (ch) {
+    var fonud = this.findAll(ch);
+    if(fonud.length === 0) return null;
+    return randomElement(fonud);
+}
+//爬行
+for(var i=0; i<5; i++) {
+    world.turn();
+    console.log(world.toString())
+}
