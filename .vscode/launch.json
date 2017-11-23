@@ -4,6 +4,13 @@
         {
             "type": "chrome",
             "request": "launch",
+            "name": "Launch Chrome",
+            "url": "http://localhost:8080",
+            "webRoot": "${workspaceRoot}"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
             "name": "6",
             "url": "http://192.168.110.60:9093/bookstudy/functional-js/chapter6/index.html?tst=1",
             "webRoot": "${workspaceRoot}"
@@ -40,7 +47,28 @@
             "type": "chrome",
             "request": "launch",
             "name": "elo-5",
-            "url": "http://192.168.110.60:9093/bookstudy/eloquent-js/chapter5/index.html?tst=1",
+            "url": "http://localhost:8080/bookstudy/eloquent-js/chapter5/index.html?tst=1",
+            "webRoot": "${workspaceRoot}"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "elo-6",
+            "url": "http://localhost:8080/bookstudy/eloquent-js/chapter6/index.html?tst=1",
+            "webRoot": "${workspaceRoot}"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "elo-7",
+            "url": "http://localhost:8080/bookstudy/eloquent-js/chapter7/index.html?tst=1",
+            "webRoot": "${workspaceRoot}"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "基础系列",
+            "url": "http://localhost:8080/bookstudy/basic-course-series/index.html?tst=1",
             "webRoot": "${workspaceRoot}"
         },
         {
