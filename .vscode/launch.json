@@ -42,6 +42,20 @@
             "name": "elo-5",
             "url": "http://192.168.110.60:9093/bookstudy/eloquent-js/chapter5/index.html?tst=1",
             "webRoot": "${workspaceRoot}"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "elo-6",
+            "url": "http://192.168.110.60:9093/bookstudy/eloquent-js/chapter6/index.html?tst=1",
+            "webRoot": "${workspaceRoot}"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "elo-7",
+            "url": "http://192.168.110.60:9093/bookstudy/eloquent-js/chapter7/index.html?tst=1",
+            "webRoot": "${workspaceRoot}"
         }
     ]
 }
